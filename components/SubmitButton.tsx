@@ -12,6 +12,7 @@ const SubmitButton = ({ className, isLoading, children }: ButtonProps) => {
     <Button
       disabled={isLoading}
       className={className ?? "shad-primary-btn w-full"}
+      type="submit"
     >
       {isLoading ? (
         <div className="flex items-center gap-4">
@@ -22,6 +23,7 @@ const SubmitButton = ({ className, isLoading, children }: ButtonProps) => {
             src="/assets/icons/loader.svg"
             className="animate-spin"
           />
+          Loading...
         </div>
       ) : (
         children

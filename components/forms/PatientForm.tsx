@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+
 import CustomeFormField from "../CustomeFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/patient.actions";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -24,9 +24,9 @@ export enum FormFieldType {
 }
 
 export function PatientForm() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter();
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
     defaultValues: {
@@ -36,17 +36,22 @@ export function PatientForm() {
     },
   });
 
-  async function onSubmit({
-    name,
-    email,
-    phone,
-  }: z.infer<typeof UserFormValidation>) {
+  async function onSubmit(values: z.infer<typeof UserFormValidation>) {
     setIsLoading(true);
     try {
-      //   const userData = { name, email, phone };
-      //   const user = await createUser(userData);
-      //   if (user) router.push(`/patients/${user.id}/register`);
-    } catch (error) {}
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      };
+
+      const newUser = await createUser(user);
+      if (newUser) router.push(`/patients/${newUser.id}/register`);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
   }
   return (
     <Form {...form}>
@@ -76,21 +81,11 @@ export function PatientForm() {
         <CustomeFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
-          name="number"
+          name="phone"
           label="Phone No"
           placeholder="9876543210"
-          iconSrc="/assets/icons/phone.svg"
-          iconAlt="phone"
         />
-        <CustomeFormField
-          fieldType={FormFieldType.INPUT}
-          control={form.control}
-          name="email"
-          label="Email"
-          placeholder="johndoe@gmail.com"
-          iconSrc="/assets/icons/email.svg"
-          iconAlt="email"
-        />
+
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
