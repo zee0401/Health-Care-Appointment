@@ -1,29 +1,20 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
-
-import CustomeFormField from "../CustomeFormField";
-import SubmitButton from "../SubmitButton";
-import { useState } from "react";
-import { UserFormValidation } from "@/lib/validation";
-import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patient.actions";
+import { UserFormValidation } from "@/lib/validation";
 
-export enum FormFieldType {
-  INPUT = "input",
-  TESTaREA = "textarea",
-  CHECKBOX = "checkox",
-  PHONE_INPUT = "phoneInput",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  SKELETON = "skeleton",
-}
+import "react-phone-number-input/style.css";
+import CustomFormField, { FormFieldType } from "../CustomeFormField";
+import SubmitButton from "../SubmitButton";
 
-export function PatientForm() {
+export const PatientForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,8 +27,9 @@ export function PatientForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof UserFormValidation>) {
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
+
     try {
       const user = {
         name: values.name,
@@ -46,21 +38,26 @@ export function PatientForm() {
       };
 
       const newUser = await createUser(user);
-      if (newUser) router.push(`/patients/${newUser.id}/register`);
+
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
     } catch (error) {
       console.log(error);
     }
 
     setIsLoading(false);
-  }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
         <section className="mb-12 space-y-4">
-          <h1 className="header">Hi There !!</h1>
-          <p className="text-dark-700">Schedule your first appointment</p>
+          <h1 className="header">Hi there 👋</h1>
+          <p className="text-dark-700">Get started with appointments.</p>
         </section>
-        <CustomeFormField
+
+        <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="name"
@@ -69,7 +66,8 @@ export function PatientForm() {
           iconSrc="/assets/icons/user.svg"
           iconAlt="user"
         />
-        <CustomeFormField
+
+        <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="email"
@@ -78,18 +76,17 @@ export function PatientForm() {
           iconSrc="/assets/icons/email.svg"
           iconAlt="email"
         />
-        <CustomeFormField
+
+        <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
-          label="Phone No"
-          placeholder="9876543210"
+          label="Phone number"
+          placeholder="(555) 123-4567"
         />
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
   );
-}
-
-export default PatientForm;
+};

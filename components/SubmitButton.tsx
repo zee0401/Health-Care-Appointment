@@ -1,4 +1,5 @@
 import Image from "next/image";
+
 import { Button } from "./ui/button";
 
 interface ButtonProps {
@@ -7,20 +8,20 @@ interface ButtonProps {
   children: React.ReactNode;
 }
 
-const SubmitButton = ({ className, isLoading, children }: ButtonProps) => {
+const SubmitButton = ({ isLoading, className, children }: ButtonProps) => {
   return (
     <Button
+      type="submit"
       disabled={isLoading}
       className={className ?? "shad-primary-btn w-full"}
-      type="submit"
     >
       {isLoading ? (
         <div className="flex items-center gap-4">
           <Image
+            src="/assets/icons/loader.svg"
             alt="loader"
             width={24}
             height={24}
-            src="/assets/icons/loader.svg"
             className="animate-spin"
           />
           Loading...
