@@ -8,6 +8,7 @@ import React from "react";
 
 const Admin = async () => {
   const appointmests = await getRecentAppointmentList();
+
   return (
     <div className="mx-auto flex max-w7xl flex-col space-y-14">
       <header className="admin-header">
@@ -39,13 +40,13 @@ const Admin = async () => {
           />
           <StatCard
             type="pending"
-            count={appointmests.pending}
+            count={appointmests.pendingCount}
             label="Pending appointments"
             icon="/assets/icons/pending.svg"
           />
           <StatCard
             type="cancelled"
-            count={appointmests.cancelled}
+            count={appointmests.cancelledCount}
             label="Cancelled appointments"
             icon="/assets/icons/cancelled.svg"
           />
