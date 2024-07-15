@@ -27,7 +27,7 @@ const Success = async ({
       <div className="success-img">
         <Link href="/">
           <Image
-            src="/assets/icons/logo-full.svg"
+            src="/assets/images/logo-file.png"
             height={1000}
             width={1000}
             alt="logo"

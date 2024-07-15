@@ -12,7 +12,7 @@ const fontSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Health Pulse",
+  title: "Health Timely",
   description: "Appointment booking and Health Care app",
 };
 
