@@ -1,4 +1,4 @@
-import { Columns } from "@/components/table/columns";
+import { Columns } from "@/components/table/Columns";
 import { DataTable } from "@/components/table/DataTable";
 import StatCard from "@/components/ui/StatCard";
 import { getRecentAppointmentList } from "@/lib/actions/appointment.actions";

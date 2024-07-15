@@ -1,5 +1,5 @@
 import { PatientForm } from "@/components/forms/PatientForm";
-import PassKeyModal from "@/components/PassKeyModal";
+import { PasskeyModal } from "@/components/PassKeyModal";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,7 +8,7 @@ export default function Home({ searchParams }: SearchParamProps) {
   const isAdmin = searchParams.admin === "true";
   return (
     <div className="flex h-screen max-h-screen">
-      {isAdmin && <PassKeyModal />}
+      {isAdmin && <PasskeyModal />}
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496]">
           <Image
@@ -21,7 +21,7 @@ export default function Home({ searchParams }: SearchParamProps) {
           <PatientForm />
           <div className="m-20 flex justify-between text-14-regular">
             <p className="justify-items-end text-dark-600 xl:text-left">
-              © 2024 CarePulse
+              © 2024 HealthTimely
             </p>
             <Link href="/?admin=true" className="text-green-500">
               Admin
